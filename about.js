@@ -67,12 +67,7 @@ function typeWriter() {
         index++;
         setTimeout(typeWriter, typingSpeed);
     } else {
-        // Terminal-style block cursor blink
-        typeWriterElement.style.borderRight = "10px solid #0f0";
-        setInterval(() => {
-            typeWriterElement.style.borderColor =
-                typeWriterElement.style.borderColor === 'transparent' ? '#0f0' : 'transparent';
-        }, 500);
+        // Typing finished (cursor removed as requested)
     }
 }
 
@@ -88,7 +83,8 @@ const contactSection = document.getElementById('contact');
 // Using your placeholder information. Feel free to modify the strings below!
 const contactLines = [
     "EMAIL: mrrahul3142@gmail.com",
-    "PHONE: +91 9360765246"
+    "PHONE: +91 9360765246",
+    "GITHUB: https://github.com/itzRahulanand"
 ];
 
 let contactLineIndex = 0;
@@ -139,14 +135,7 @@ if (revealBtn && contactReveal) {
                     contactTypingTimeoutId = setTimeout(typeContact, 300); // Pause before the next line
                 }
             } else {
-                // Done typing, add the blinking cursor
-                contactReveal.innerHTML += '<span id="contact-cursor" style="border-right: 10px solid #0f0; margin-left: 5px;"></span>';
-                const cursor = document.getElementById('contact-cursor');
-                if (cursor) {
-                    contactCursorIntervalId = setInterval(() => {
-                        cursor.style.borderColor = cursor.style.borderColor === 'transparent' ? '#0f0' : 'transparent';
-                    }, 500);
-                }
+                // Done typing (cursor removed as requested)
             }
         }
 
@@ -165,4 +154,23 @@ if (revealBtn && contactReveal) {
 
         observer.observe(contactSection);
     }
+}
+
+// --- Theme Toggle ---
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+
+if (themeToggleBtn && themeIcon) {
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+
+        // Update icon correctly
+        if (document.body.classList.contains('light-mode')) {
+            // Moon icon for switching back to dark mode
+            themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        } else {
+            // Sun icon for switching to light mode
+            themeIcon.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>';
+        }
+    });
 }
