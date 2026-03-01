@@ -278,3 +278,156 @@ nav {
     min-height: 4rem;
     /* To prevent jumping */
 }
+
+/* --- Theme Toggle Button --- */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(0, 255, 0, 0.2);
+    box-shadow: var(--primary-glow);
+}
+
+.theme-toggle-btn svg {
+    filter: drop-shadow(0 0 5px var(--primary-color));
+}
+
+/* --- LIGHT MODE GLASSMORPHISM --- */
+body.light-mode {
+    --primary-color: #f97316;
+    /* Vibrant orange from sample */
+    --primary-hover: #ea580c;
+    --primary-glow: 0 4px 14px 0 rgba(249, 115, 22, 0.3);
+    --text-glow: none;
+    --bg-color: #17171e;
+    /* Dark background */
+    --text-color: #fafaf9;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    /* Subtle glass panel */
+
+    background-color: var(--bg-color);
+    background-image:
+        radial-gradient(circle at 30% 50%, rgba(249, 115, 22, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(234, 179, 8, 0.08) 0%, transparent 35%);
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Cleaner font for premium feel */
+}
+
+body.light-mode #matrix-canvas {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body.light-mode::after {
+    display: none;
+    /* Remove CRT scanlines */
+}
+
+body.light-mode nav {
+    margin: 1.5rem auto;
+    width: 90%;
+    border-radius: 20px;
+    border-bottom: none;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    top: 1.5rem;
+}
+
+body.light-mode .hero-content,
+body.light-mode .project-card,
+body.light-mode #contact {
+    background: var(--card-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode #hero {
+    font-family: inherit;
+}
+
+body.light-mode .project-card {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.light-mode .project-card::before {
+    display: none;
+    /* Remove matrix glitch hover */
+}
+
+body.light-mode .highlight {
+    color: var(--primary-color);
+    text-shadow: none;
+}
+
+body.light-mode .btn {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--primary-glow);
+    text-shadow: none;
+}
+
+body.light-mode .btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode .logo {
+    text-shadow: none;
+    color: #fff;
+    letter-spacing: normal;
+}
+
+body.light-mode p {
+    color: #a8a29e;
+}
+
+body.light-mode .tags span {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #d6d3d1;
+    border-radius: 8px;
+    background: transparent;
+}
+
+body.light-mode .contact-reveal {
+    color: #fff;
+    text-shadow: none;
+    font-family: inherit;
+}
+
+body.light-mode .theme-toggle-btn {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.light-mode .theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    box-shadow: none;
+}
+
+body.light-mode .theme-toggle-btn svg {
+    filter: none;
+}
