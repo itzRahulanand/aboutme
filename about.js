@@ -56,7 +56,7 @@ window.addEventListener('resize', () => {
 });
 
 // --- Typewriter Effect ---
-const textToType = "a Developer & Designer.";
+const textToType = "Developer & Designer.";
 const typeWriterElement = document.getElementById("typewriter");
 let index = 0;
 const typingSpeed = 100;
