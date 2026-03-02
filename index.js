@@ -142,18 +142,7 @@ if (revealBtn && contactReveal) {
         typeContact();
     });
 
-    if (contactSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // If it goes out of view, reset it
-                if (!entry.isIntersecting) {
-                    resetContactReveal();
-                }
-            });
-        }, { threshold: 0 }); // Trigger when section is out of view
-
-        observer.observe(contactSection);
-    }
+    // The contact section observer logic has been removed as requested, so the revealed contact info will remain permanently visible after clicking.
 }
 
 // --- Theme Toggle ---
