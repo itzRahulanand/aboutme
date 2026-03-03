@@ -1,22 +1,25 @@
 /* --- Global Styles & Variables --- */
 :root {
-    --primary-color: #0f0;
-    /* Classic Matrix neon green */
-    --primary-hover: #3f3;
-    --primary-glow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-    --text-glow: 0 0 5px rgba(0, 255, 0, 0.7);
-    --bg-color: #000;
-    --text-color: #0f0;
-    --card-bg: rgba(0, 20, 0, 0.85);
-    /* Semi-transparent dark green/black */
+    --primary-color: #A980F0;
+    /* Cosmic Purple */
+    --primary-hover: #D4BDFC;
+    /* Lighter Purple */
+    --primary-glow: 0 0 10px rgba(169, 128, 240, 0.5), 0 0 20px rgba(169, 128, 240, 0.3);
+    --text-glow: 0 0 5px rgba(255, 255, 255, 0.5);
+    --bg-color: #030008;
+    /* Deep Space Black */
+    --text-color: #F0F4F8;
+    /* Starlight White */
+    --card-bg: rgba(10, 5, 20, 0.7);
+    /* Deep translucent cosmic glass */
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Courier New', Courier, monospace;
-    /* Terminal vibe */
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    /* Clean, modern sci-fi font */
     scroll-behavior: smooth;
     color: var(--text-color);
 }
@@ -27,8 +30,8 @@ body {
     overflow-x: hidden;
 }
 
-/* --- Matrix Canvas --- */
-#matrix-canvas {
+/* --- Space Canvas --- */
+#space-canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -36,24 +39,10 @@ body {
     height: 100vh;
     z-index: -1;
     pointer-events: none;
-    /* Let clicks pass through */
+    background-color: var(--bg-color);
 }
 
-/* --- CRT Scanlines Effect --- */
-body::after {
-    content: " ";
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%,
-            rgba(0, 0, 0, 0.25) 50%);
-    background-size: 100% 4px;
-    z-index: 9999;
-    pointer-events: none;
-}
+
 
 /* --- Navigation --- */
 nav {
@@ -61,13 +50,14 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 5%;
-    background-color: rgba(0, 10, 0, 0.9);
-    border-bottom: 1px solid var(--primary-color);
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    background-color: rgba(5, 0, 15, 0.8);
+    border-bottom: 1px solid rgba(169, 128, 240, 0.2);
+    box-shadow: 0 0 15px rgba(169, 128, 240, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .logo {
@@ -113,7 +103,7 @@ nav {
     background: var(--card-bg);
     padding: 3rem;
     border: 1px solid var(--primary-color);
-    border-radius: 4px;
+    border-radius: 16px;
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
 }
 
@@ -132,7 +122,8 @@ nav {
     font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto 2.5rem auto;
-    color: #8f8;
+    color: #B0C4DE;
+    /* Light steel blue for readable cosmic text */
 }
 
 /* --- Buttons --- */
@@ -143,12 +134,13 @@ nav {
     color: var(--primary-color);
     text-decoration: none;
     border: 2px solid var(--primary-color);
+    border-radius: 30px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.2), 0 0 5px rgba(0, 255, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(169, 128, 240, 0.15);
 }
 
 .btn:hover {
@@ -184,11 +176,14 @@ nav {
 .project-card {
     background-color: var(--card-bg);
     padding: 2.5rem;
-    border: 1px solid var(--primary-color);
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
-    transition: all 0.3s ease;
+    border: 1px solid rgba(169, 128, 240, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(10, 5, 20, 0.5);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .project-card::before {
@@ -198,7 +193,7 @@ nav {
     left: -100%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(0, 255, 0, 0.1), transparent);
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
     transform: skewX(-20deg);
     transition: 0.5s;
 }
@@ -221,7 +216,7 @@ nav {
 }
 
 .project-card p {
-    color: #aaa;
+    color: #B0C4DE;
     margin-bottom: 1.5rem;
 }
 
@@ -233,6 +228,7 @@ nav {
     background: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
+    border-radius: 20px;
     padding: 0.3rem 0.8rem;
     font-size: 0.85rem;
     font-weight: bold;
@@ -260,6 +256,8 @@ nav {
     padding: 6rem 5%;
     background-color: var(--card-bg);
     border-top: 1px solid var(--primary-color);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     position: relative;
     z-index: 1;
     scroll-margin-top: 6rem;
@@ -267,7 +265,7 @@ nav {
 
 #contact p {
     margin: 1rem auto 2.5rem auto;
-    color: #8f8;
+    color: #B0C4DE;
     max-width: 500px;
 }
 
@@ -296,7 +294,7 @@ nav {
 }
 
 .theme-toggle-btn:hover {
-    background: rgba(0, 255, 0, 0.2);
+    background: rgba(169, 128, 240, 0.1);
     box-shadow: var(--primary-glow);
 }
 
@@ -329,7 +327,7 @@ body.light-mode {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-body.light-mode #matrix-canvas {
+body.light-mode #space-canvas {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
