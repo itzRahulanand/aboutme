@@ -1,59 +1,101 @@
-// --- Matrix Digital Rain ---
-const canvas = document.getElementById('matrix-canvas');
+// --- Space Parallax ---
+const canvas = document.getElementById('space-canvas');
 const ctx = canvas.getContext('2d');
 
+let width, height;
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
 }
 resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/~{[|`]}日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ'.split('');
-const fontSize = 16;
-let columns = canvas.width / fontSize;
+// Generate Stars (3 Depth Layers)
+const stars = [];
+const numStars = 400;
 
-let drops = [];
-for (let x = 0; x < columns; x++) {
-    drops[x] = 1;
+for (let i = 0; i < numStars; i++) {
+    stars.push({
+        x: Math.random() * 2000 - 1000, // Spread widely for horizontal scrolling
+        y: Math.random() * 8000 - 1000, // Spread deeply for vertical scrolling
+        size: Math.random() * 1.5 + 0.5,
+        depth: Math.random() * 3 + 1, // 1 is close (fast), 4 is far (slow)
+        opacity: Math.random() * 0.8 + 0.2
+    });
 }
 
-function drawMatrix() {
-    // Translucent black background to show trail
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#0F0'; // Green text
-    ctx.font = fontSize + 'px monospace';
-
-    for (let i = 0; i < drops.length; i++) {
-        const text = characters[Math.floor(Math.random() * characters.length)];
-        // Add random brightness variation for more authentic look
-        if (Math.random() > 0.95) {
-            ctx.fillStyle = '#FFF'; // white head
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            ctx.fillStyle = '#0F0';
-        } else {
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        }
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-        }
-        drops[i]++;
-    }
+// Generate Space Objects (Meteors/Satellites)
+const objects = [];
+for (let i = 0; i < 15; i++) {
+    objects.push({
+        x: Math.random() * width,
+        y: Math.random() * 6000 + 500, // Spread down the page
+        size: Math.random() * 4 + 2,
+        speedX: (Math.random() - 0.5) * 4,
+        speedY: Math.random() * 2 + 1,
+        depth: Math.random() * 1.5 + 0.5 // Mostly close
+    });
 }
 
-setInterval(drawMatrix, 33); // ~30 FPS
-
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    // Re-initialize columns and drops on resize
-    columns = canvas.width / fontSize;
-    drops = [];
-    for (let x = 0; x < columns; x++) {
-        drops[x] = 1;
-    }
+let scrollY = 0;
+window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
 });
+
+function drawSpace() {
+    ctx.clearRect(0, 0, width, height);
+
+    // In Light Mode, hide the space canvas
+    if (document.body.classList.contains('light-mode')) {
+        requestAnimationFrame(drawSpace);
+        return;
+    }
+
+    // Draw Stars
+    stars.forEach(star => {
+        // Parallax scroll effect
+        let px = (star.x - (scrollY * 0.1 / star.depth)) % width;
+        if (px < 0) px += width;
+
+        let py = (star.y - (scrollY / star.depth)) % height;
+        if (py < 0) py += height;
+
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.beginPath();
+        ctx.arc(px, py, star.size / star.depth, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    // Draw Moving Space Objects (Meteors/Comets)
+    objects.forEach(obj => {
+        obj.x += obj.speedX;
+        obj.y += obj.speedY; // Natural movement
+
+        let px = (obj.x - (scrollY / obj.depth)) % width;
+        if (px < 0) px += width;
+
+        let py = (obj.y - (scrollY / obj.depth)) % height;
+        if (py < 0) py += height;
+
+        // Draw meteor head
+        ctx.fillStyle = 'rgba(150, 200, 255, 0.9)'; // Cosmic blue/white
+        ctx.beginPath();
+        ctx.arc(px, py, obj.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw meteor tail
+        ctx.strokeStyle = 'rgba(150, 200, 255, 0.2)';
+        ctx.lineWidth = obj.size;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px - obj.speedX * 15, py - obj.speedY * 15 - (scrollY * 0.1));
+        ctx.stroke();
+    });
+
+    requestAnimationFrame(drawSpace);
+}
+
+drawSpace();
 
 // --- Typewriter Effect ---
 const textToType = "Developer & Designer.";
